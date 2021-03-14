@@ -159,27 +159,33 @@ public:
   ~ThreadSafeHashMap() {
     delete [] buckets_;
   }
-  int getBucketId(Key const &key) { return std::hash<Key>{}(key) % bucket_cnt_; }
+  int getBucketId(Key const &key) { return std::hash<Key>{}(key); }
 
   void put(Key const &key, Value const &value) {
     std::shared_lock<std::shared_timed_mutex> shared_lock(mtx_);
-    int idx = getBucketId(key);
+    int idx = getBucketId(key) % bucket_cnt_;
     if (buckets_[idx].put(key, value))
       size_++;
-    if (size_ > 50 && size_  > 10 * bucket_cnt_) resize(size_ / 3);
+    if (size_ > 50 && size_  > 10 * bucket_cnt_) {
+      shared_lock.unlock();
+      resize(size_ / 3);
+    }
   }
 
   void erase(Key const &key) {
     std::shared_lock<std::shared_timed_mutex> shared_lock(mtx_);
-    int idx = getBucketId(key);
+    int idx = getBucketId(key) % bucket_cnt_;
     if (buckets_[idx].erase(key))
       size_--;
-    if (size_ > 50 && size_ < 5 * bucket_cnt_) resize(size_ / 3);
+    if (size_ > 50 && size_ < 5 * bucket_cnt_) {
+      shared_lock.unlock();
+      resize(size_ / 3);
+    }
   }
 
   Value get(Key const &key) {
     std::shared_lock<std::shared_timed_mutex> shared_lock(mtx_);
-    int idx = getBucketId(key);
+    int idx = getBucketId(key) % bucket_cnt_;
     return buckets_[idx].get(key);
   }
 
@@ -188,7 +194,7 @@ public:
     Bucket* buckets = new Bucket[bucket_cnt];
     for (int i = 0; i < bucket_cnt_; i++) {
       for (auto& kv: buckets_[i].kvs_) {
-        int idx = getBucketId(kv.first);
+        int idx = getBucketId(kv.first) % bucket_cnt;
         buckets[idx].put(kv.first, kv.second);
       }
     }
@@ -247,7 +253,7 @@ private:
     std::list<std::pair<Key, Value>> kvs_;
   };
   size_t bucket_cnt_;
-  std::atomic<size_t> size_;
+  std::atomic<size_t> size_{0};
   Bucket* buckets_;
   std::shared_timed_mutex mtx_;
 };
