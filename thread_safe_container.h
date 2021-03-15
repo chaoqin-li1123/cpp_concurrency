@@ -60,7 +60,7 @@ public:
     std::unique_lock<std::mutex> lck(mtx_);
     if (data_.empty())
       return false;
-    t = move(data_.top());
+    t = std::move(data_.top());
     data_.pop();
     return true;
   }
@@ -90,7 +90,7 @@ public:
     std::unique_ptr<Node> node{new Node()};
     Node *new_tail = node.get();
     tail_->data_ = std::make_unique<T>(t);
-    tail_->next_ = move(node);
+    tail_->next_ = std::move(node);
     tail_ = new_tail;
   }
 
@@ -99,8 +99,8 @@ public:
     assert(tail_->data_ == nullptr);
     std::unique_ptr<Node> node{new Node()};
     Node *new_tail = node.get();
-    tail_->data_ = std::make_unique<T>(move(t));
-    tail_->next_ = move(node);
+    tail_->data_ = std::make_unique<T>(std::move(t));
+    tail_->next_ = std::move(node);
     tail_ = new_tail;
   }
 
@@ -108,7 +108,7 @@ public:
     std::unique_ptr<Node> old_head = pop_head();
     if (old_head == nullptr)
       return nullptr;
-    std::unique_ptr<T> data = move(old_head->data_);
+    std::unique_ptr<T> data = std::move(old_head->data_);
     return data;
   }
 
@@ -116,7 +116,7 @@ public:
     std::unique_ptr<Node> old_head = pop_head();
     if (old_head == nullptr)
       return false;
-    t = *(old_head->data_.release());
+    t = std::move(*(old_head->data_.release()));
     return true;
   }
 
