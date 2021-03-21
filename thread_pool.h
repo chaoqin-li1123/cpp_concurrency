@@ -21,6 +21,21 @@ public:
   virtual void shutdown() = 0;
   virtual bool start() = 0;
 };
+
+
+class spinlockMutex {
+public:
+  spinlockMutex(): flag(ATOMIC_FLAG_INIT) {}
+  void lock() {
+    while (flag.test_and_set(std::memory_order_acquire));
+  }
+  void unlock() {
+    flag.test_and_set(std::memory_order_release);
+  }
+private:
+  std::atomic_flag flag;
+};
+
 namespace v1 {
 
 class ThreadPoolImpl : public ThreadPool {

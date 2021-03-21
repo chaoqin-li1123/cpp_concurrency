@@ -5,8 +5,11 @@
 #include <chrono>
 #include <future>
 #include <iostream>
+#include <mutex>
 
 void testThreadPool() {
+  Thread::spinlockMutex mtx;
+  std::lock_guard<Thread::spinlockMutex> lck(mtx);
   Container::ThreadSafeHashMap<int, int> dict;
   std::atomic<int> cnt;
   cnt.store(0);
