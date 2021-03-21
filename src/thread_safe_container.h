@@ -70,7 +70,7 @@ public:
     return data_.empty();
   }
 
-  void size() const {
+  size_t size() const {
     std::unique_lock<std::mutex> lck(mtx_);
     return data_.size();
   }

@@ -1,7 +1,7 @@
-#include "thread_pool.h"
-#include "thread_safe_container.h"
-#include "interruptible_thread.h"
-#include "parallel_algo.h"
+#include "src/thread_pool.h"
+#include "src/thread_safe_container.h"
+#include "src/interruptible_thread.h"
+#include "src/parallel_algo.h"
 #include <chrono>
 #include <future>
 #include <iostream>
@@ -37,3 +37,20 @@ void testThreadPool() {
 }
 
 int main() { testThreadPool(); }
+
+    // DO NOT SUBMIT: Remove this comment block.
+    //
+    // Useful links:
+    //
+    //  * http://go/gunitprimer introduction to gUnit.
+    //  * http://go/unit-testing-best-practices general best practices.
+    //  * http://go/gmockguide introduction to gMock.
+    //  * http://go/matchers a list of gUnit and gMock matchers.
+    //
+    //  * http://go/totw/97 on writing simpler tests.
+    //  * http://go/totw/122 on improving test readability.
+    //  * http://go/totw/113 on proper usage of ASSERTs and EXPECTs.
+    //  * http://go/totw/135 on avoiding FRIEND_TEST.
+    //  * http://go/totw/111 on testing with Time and Clocks.
+    //
+    // DO NOT SUBMIT: Remove this comment block.

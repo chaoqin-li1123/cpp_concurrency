@@ -48,7 +48,7 @@ public:
   bool start() override {
     shutdown_.store(false);
     try {
-      for (int i = 0; i < threads_; i++) {
+      for (size_t i = 0; i < threads_; i++) {
         workers_.emplace_back(&ThreadPoolImpl::worker, this);
       }
     }
@@ -130,7 +130,7 @@ public:
   bool start() override {
     shutdown_.store(false);
     try {
-      for (int i = 0; i < threads_; i++) {
+      for (size_t i = 0; i < threads_; i++) {
         workers_.emplace_back(&ThreadPoolImpl::worker, this);
       }
     }
@@ -224,7 +224,7 @@ public:
     thread_local_tasks_.resize(threads_);
     shutdown_.store(false);
     try {
-      for (int i = 0; i < threads_; i++) {
+      for (size_t i = 0; i < threads_; i++) {
         workers_.emplace_back(&ThreadPoolImpl::worker, this);
       }
     }
@@ -303,7 +303,7 @@ public:
   }
 
   void runOnAllThreads(std::function<void()> f) {
-    for (int i = 0; i < threads_; i++) {
+    for (size_t i = 0; i < threads_; i++) {
       std::function<void()> temp = f;
       thread_local_tasks_[i].emplace_back(std::move(temp));
     }
@@ -332,6 +332,6 @@ thread_local int ThreadPoolImpl::thread_id_{-1};
 
 } // namespace v3
 
-using namespace v3;
+using namespace v1;
 
 } // namespace Thread
