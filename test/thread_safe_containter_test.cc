@@ -7,7 +7,7 @@ namespace Container
 
     class ThreadSafeQueueTest : public testing::Test
     {
-    public:
+    protected:
         ThreadSafeQueue<int> q_;
     };
 
@@ -59,20 +59,6 @@ namespace Container
         EXPECT_TRUE(q_.empty());
     }
 
-    TEST_F(ThreadSafeQueueTest, MultiThreadIncrement)
-    {
-        Thread::ThreadPoolImpl pool;
-        pool.start();
-        std::atomic<int> cnt{0};
-        const int N = 100;
-        for (int i = 0; i < N; i++)
-        {
-            pool.addTask(
-                [&cnt]() { cnt++; });
-        }
-        pool.shutdown();
-        EXPECT_EQ(cnt.load(), N);
-    }
 
     class ThreadSafeStackTest : public testing::Test
     {

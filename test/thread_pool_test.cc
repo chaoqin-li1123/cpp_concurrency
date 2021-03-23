@@ -1,9 +1,11 @@
 #include "src/thread_pool.h"
 #include "gtest/gtest.h"
 
-namespace Thread {
-    class ThreadPoolTest : public testing::Test{
-    public:
+namespace Thread
+{
+    class ThreadPoolTest : public testing::Test
+    {
+    protected:
         ThreadPoolImpl thread_pool_;
     };
 
