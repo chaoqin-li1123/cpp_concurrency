@@ -25,6 +25,18 @@ cc_test (
 )
 
 cc_test (
+    name = "thread_wrapper_test",
+    srcs = [
+        "thread_wrapper_test.cc",
+    ],
+    deps = [
+        "@gtest//:gtest",
+        "@gtest//:gtest_main", 
+        "//src:thread_wrapper"       
+    ],
+)
+
+cc_test (
     name = "parallel_algo_test",
     srcs = [
         "parallel_algo_test.cc",

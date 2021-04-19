@@ -16,3 +16,9 @@ cc_library(
     hdrs = ["thread_safe_container.h"],
     visibility = ["//visibility:public"],
 )
+
+cc_library(
+    name = "thread_wrapper",
+    hdrs = ["thread_wrapper.h"],
+    visibility = ["//visibility:public"],
+)
