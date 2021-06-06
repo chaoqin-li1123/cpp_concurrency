@@ -22,3 +22,9 @@ cc_library(
     hdrs = ["thread_wrapper.h"],
     visibility = ["//visibility:public"],
 )
+
+cc_library(
+    name = "string",
+    hdrs = ["string.h"],
+    visibility = ["//visibility:public"],
+)

@@ -47,3 +47,16 @@ cc_test (
         "//src:parallel_algo"  
     ],
 )
+
+
+cc_test (
+    name = "string_test",
+    srcs = [
+        "string_test.cc",
+    ],
+    deps = [
+        "@gtest//:gtest",
+        "@gtest//:gtest_main", 
+        "//src:string"  
+    ],
+)
